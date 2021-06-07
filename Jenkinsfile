@@ -1,6 +1,12 @@
 pipeline {
     agent any
+
     stages {
+        stage('Hello World Pipeline') {
+            steps {
+	         echo "Hello world"
+            }
+        }
         stage('Build') {
             agent {
                 docker {
@@ -10,9 +16,6 @@ pipeline {
             steps {
                 sh 'python --version'
             }
-        }
-        stage('Test'){
-            sh 'python --version'
         }
     }
 }
