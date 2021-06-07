@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-test-api
+  labels:
+    name: django-test-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-test-api
+  template:
+    metadata:
+      labels:
+        app: django-test-api
+    spec:
+      containers:
+        - name: users-api-sevice
+          image: usersapi:latest
+          imagePullPolicy: IfNotPresent
+          # imagePullPolicy: Never
+          env:
+            - name: PORT
+              value: "8000"
+      restartPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-postgres-dep
+  labels:
+    name: django-postgres-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-postgres-dep
+  template:
+    metadata:
+      labels:
+        app: django-postgres-dep
+    spec:
+      containers:
+        - name: postgres-app
+          image: postgresapp:latest
+          imagePullPolicy: Never
+          env:
+            - name: POSTGRES_PORT
+              value: "5342"
+            - name: POSTGRES_DB
+              value: "admin"
+            - name: POSTGRES_USER
+              value: "sBLRWyyPsInwHftmHAWmYJURGWBGFpLs"
+            - name: POSTGRES_PASSWORD
+              value: "tuXL3XSF8O7tsGrcGHoMos4tVNtL3tnrRshSCZokGnIfk4ArDyzaa297k2WgQPSL"
+      restartPolicy: Always
