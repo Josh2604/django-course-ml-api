@@ -6,8 +6,7 @@ pipeline {
             steps {
 	         def installed = fileExists '.environment/bin/activate'
               if (!installed) {
-                    stage("Install Python Virtual Enviroment") {
-                    sh 'virtualenv --no-site-packages .'
+                sh 'virtualenv --no-site-packages .'
               }
             }
         }
