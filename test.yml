@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  django:
+    build: ./compose/local/Dockerfile
+    image: usersapi:latest
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8000 && python manage.py test
+    depends_on:
+      - postgres
+    volumes:
+      - .:/code
+    env_file:
+      - ./.envs/.local/.postgresql
+    ports:
+      - "8000:8000"
+
+  postgres:
+    build: ./compose/local/postgres/Dockerfile
+    image: postgres_sql:latest
+    restart: always
+    env_file:
+      - ./.envs/.local/.postgresql

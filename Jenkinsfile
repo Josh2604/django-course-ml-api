@@ -2,18 +2,19 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello World Pipeline') {
+        stage('Dockering app') {
             steps {
-	         echo "Hello world"
+	         sh 'docker build --pull --rm -f "compose/local/Dockerfile" -t usersapi:latest .'
+            }
+        }
+        stage('Dockering postgres dependency'){
+            steps {
+	         sh 'docker build --pull --rm -f "compose/local/postgres/Dockerfile" -t postgresapp:latest .'
             }
         }
         stage('Test'){
             steps{
-               sh 'virtualenv env'
-               sh'''#!/bin/bash
-                     source env/bin/activate
-               '''
-               sh 'pip install --upgrade -r requirements/production.txt'
+                sh 'docker-compose -f test.yml up'
             }
         }
         stage('Build') {
