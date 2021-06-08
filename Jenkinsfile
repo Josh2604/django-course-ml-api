@@ -2,9 +2,13 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello World Pipeline') {
+        stage('Check Pipeline') {
             steps {
-	         echo "Hello world"
+	         def installed = fileExists '.environment/bin/activate'
+              if (!installed) {
+                    stage("Install Python Virtual Enviroment") {
+                    sh 'virtualenv --no-site-packages .'
+              }
             }
         }
         stage('Test'){
