@@ -9,7 +9,11 @@ pipeline {
         }
         stage('Test'){
             steps{
-               sh 'virtualenv env && source env/bin/activate && pip install --upgrade -r requirements/production.txt'
+               sh 'virtualenv env'
+               sh'''#!/bin/bash
+                     source env/bin/activate
+               '''
+               sh 'pip install --upgrade -r requirements/production.txt'
             }
         }
         stage('Build') {
