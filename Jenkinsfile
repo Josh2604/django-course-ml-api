@@ -14,7 +14,10 @@ pipeline {
                 }
             }
             steps {
-                sh 'python manage.py test'
+                sh 'python3 -venv .env'
+                sh 'source .env/bin/activate'
+                sh 'pip install -r requirements/production.txt'
+                sh 'python3 manage.py test'
             }
         }
     }
