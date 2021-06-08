@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Check Pipeline') {
+        stage('Hello World Pipeline') {
             steps {
-	         sh 'Checking env'
+	         echo "Hello world"
             }
         }
         stage('Test'){
