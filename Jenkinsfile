@@ -4,10 +4,7 @@ pipeline {
     stages {
         stage('Check Pipeline') {
             steps {
-	         def installed = fileExists '.environment/bin/activate'
-              if (!installed) {
-                sh 'virtualenv --no-site-packages .'
-              }
+	         sh 'Checking env'
             }
         }
         stage('Test'){
