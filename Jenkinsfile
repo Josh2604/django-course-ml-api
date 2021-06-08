@@ -7,6 +7,11 @@ pipeline {
 	         echo "Hello world"
             }
         }
+        stage('Test'){
+            steps{
+               sh 'virtualenv env && source env/bin/activate && pip install --upgrade -r requirements/production.txt'
+            }
+        }
         stage('Build') {
             agent {
                 docker {
@@ -14,11 +19,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'python3 -m venv .env'
-                sh 'ls'
-                sh 'source .env/bin/activate'
-                sh 'pip install -r requirements/production.txt'
-                sh 'python3 manage.py test'
+                sh 'python --version'
             }
         }
     }
