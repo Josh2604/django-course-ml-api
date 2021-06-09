@@ -24,8 +24,14 @@ pipeline {
         }
         stage('Stoping Services'){
             steps{
-                sh 'docker-compose -f test.yml stop'
-                sh 'docker-compose -f test.yml rm -f'
+                script{
+                    try{
+                        sh 'docker-compose -f test.yml stop'
+                        sh 'docker-compose -f test.yml rm -f'
+                    }catch{
+                        sh 'Some error stoping services'
+                    }
+                }
             }
         }
         stage('Cleaning'){
