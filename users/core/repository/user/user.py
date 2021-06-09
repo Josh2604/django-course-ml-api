@@ -16,10 +16,10 @@ class UserRepository(UserInterface):
             user = cursor.fetchone()
             print("This is the user", user)
             connection.close()
-            #if user is not None:
-            return User(user[0], user[1], user[2], user[3]).userJSON()
-            #else:
-                #return {}
+            if user is not None:
+                return User(user[0], user[1], user[2], user[3]).userJSON()
+            else:
+                return {}
 
         except Exception as error:
             print("error: ", error)
