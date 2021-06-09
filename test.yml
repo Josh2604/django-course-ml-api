@@ -4,10 +4,11 @@ services:
   django:
     build: ./compose/local/Dockerfile
     image: usersapi:latest
-    restart: always
-    command: python manage.py runserver 0.0.0.0:8000 && python manage.py test
+    restart: "no"
+    command: "python manage.py test"
+    #command: python manage.py runserver 0.0.0.0:8000
     depends_on:
-      - postgres
+      - django-postgres-dep-service
     volumes:
       - .:/code
     env_file:
@@ -15,9 +16,9 @@ services:
     ports:
       - "8000:8000"
 
-  postgres:
+  django-postgres-dep-service:
     build: ./compose/local/postgres/Dockerfile
     image: postgres_sql:latest
-    restart: always
+    restart: "no"
     env_file:
       - ./.envs/.local/.postgresql

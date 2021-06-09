@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Test'){
             steps{
-                sh 'docker-compose -f test.yml up'
+                sh 'docker-compose -f test.yml up --abort-on-container-exit'
             }
         }
         stage('Build') {
