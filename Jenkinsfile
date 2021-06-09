@@ -19,12 +19,13 @@ pipeline {
         }
         stage('Sending Notification') {
             steps{
-                sh 'Sending notification'
+               echo 'Sending notification'
             }
         }
         stage('Cleaning'){
             steps{
                 sh 'docker rmi $(docker images -f "dangling=true" -q)'
+                sh 'docker rm $(docker ps -a -f status=exited -q)'
             }
         }
     }
