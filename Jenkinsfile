@@ -28,7 +28,7 @@ pipeline {
                     try{
                         sh 'docker-compose -f test.yml stop'
                         sh 'docker-compose -f test.yml rm -f'
-                    }catch{
+                    }catch(Exception e){
                         sh 'Some error stoping services'
                     }
                 }
