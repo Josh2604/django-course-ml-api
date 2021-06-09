@@ -2,19 +2,42 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello World Pipeline') {
+        stage('Dockering app') {
             steps {
-	         echo "Hello world"
+	         sh 'docker build --pull --rm -f "compose/local/Dockerfile" -t usersapi:latest .'
             }
         }
-        stage('Build') {
-            agent {
-                docker {
-                    image 'python:3.8-alpine3.12'
-                }
-            }
+        stage('Dockering postgres dependency'){
             steps {
-                sh 'python --version'
+	         sh 'docker build --pull --rm -f "compose/local/postgres/Dockerfile" -t postgres_sql:latest .'
+            }
+        }
+        stage('Test'){
+            steps{
+                sh 'docker-compose -f test.yml up --abort-on-container-exit'
+            }
+        }
+        stage('Sending Notification') {
+            steps{
+               echo 'Sending notification'
+            }
+        }
+        stage('Stoping Services'){
+            steps{
+                sh 'docker-compose -f test.yml stop'
+                sh 'docker-compose -f test.yml rm -f'
+            }
+        }
+        stage('Cleaning'){
+            steps{
+                script {
+                    try{
+                        sh 'docker rm $(docker ps -a -f status=exited -q)'
+                        sh 'docker rmi $(docker images -f "dangling=true" -q)'
+                    }catch(Exception e){
+                        echo 'Some images was not deleted'
+                    }
+                }
             }
         }
     }
