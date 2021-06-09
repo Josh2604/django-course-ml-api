@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Dockering postgres dependency'){
             steps {
-	         sh 'docker build --pull --rm -f "compose/local/postgres/Dockerfile" -t postgresapp:latest .'
+	         sh 'docker build --pull --rm -f "compose/local/postgres/Dockerfile" -t postgres_sql:latest .'
             }
         }
         stage('Test'){
