@@ -14,12 +14,8 @@ class UserRepository(UserInterface):
             cursor = connection.cursor()
             cursor.execute("SELECT * FROM Users WHERE id={}".format(user_id))
             user = cursor.fetchone()
-            print("This is the user", user)
             connection.close()
-            if user is not None:
-                return User(user[0], user[1], user[2], user[3]).userJSON()
-            else:
-                return {}
+            return User(user[0], user[1], user[2], user[3]).userJSON()
 
         except Exception as error:
             print("error: ", error)
