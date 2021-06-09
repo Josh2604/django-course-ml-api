@@ -25,10 +25,10 @@ pipeline {
         stage('Cleaning'){
             steps{
                 script {
-                    try {
+                    try{
                         sh 'docker rm $(docker ps -a -f status=exited -q)'
                         sh 'docker rmi $(docker images -f "dangling=true" -q)'
-                    } catch {
+                    }catch(Exception e){
                         echo 'Some images was not deleted'
                     }
                 }
