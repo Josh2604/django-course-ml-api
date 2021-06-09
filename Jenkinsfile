@@ -24,8 +24,14 @@ pipeline {
         }
         stage('Cleaning'){
             steps{
-                sh 'docker rmi $(docker images -f "dangling=true" -q)'
-                sh 'docker rm $(docker ps -a -f status=exited -q)'
+                script {
+                    try {
+                        sh 'docker rm $(docker ps -a -f status=exited -q)'
+                        sh 'docker rmi $(docker images -f "dangling=true" -q)'
+                    } catch {
+                        echo 'Some images was not deleted'
+                    }
+                }
             }
         }
     }
