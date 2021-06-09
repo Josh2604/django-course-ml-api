@@ -17,14 +17,14 @@ pipeline {
                 sh 'docker-compose -f test.yml up --abort-on-container-exit'
             }
         }
-        stage('Build') {
-            agent {
-                docker {
-                    image 'python:3.8-alpine3.12'
-                }
+        stage('Sending Notification') {
+            steps{
+                sh 'Sending notification'
             }
-            steps {
-                sh 'python --version'
+        }
+        stage('Cleaning'){
+            steps{
+                sh 'docker rmi $(docker images -f "dangling=true" -q)'
             }
         }
     }
