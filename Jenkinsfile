@@ -22,6 +22,12 @@ pipeline {
                echo 'Sending notification'
             }
         }
+        stage('Stoping Services'){
+            steps{
+                sh 'docker-compose -f test.yml stop'
+                sh 'docker-compose -f test.yml rm -f'
+            }
+        }
         stage('Cleaning'){
             steps{
                 script {
