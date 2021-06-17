@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Sending Notification') {
             steps{
-               echo 'Sending notification'
+               echo 'Sending notification test'
             }
         }
         stage('Stoping Services'){
